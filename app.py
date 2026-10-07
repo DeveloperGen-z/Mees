@@ -5195,12 +5195,10 @@ def auto_cancel_main():
 
 
 if __name__ == "__main__":
-    import threading
-    if os.environ.get("WORKER_MODE", "0").lower() in ("1", "true", "yes", "on"):
-        if not TOKEN:
-            raise SystemExit("BOT_TOKEN is not set. Set BOT_TOKEN environment variable.")
-        main()
-    else:
-        import uvicorn
-        port = int(os.environ.get("PORT", "10000"))
-        uvicorn.run("app:app", host=os.environ.get("HOST", "0.0.0.0"), port=port, reload=False)
+    import os
+    import uvicorn
+
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "10000"))
+
+    uvicorn.run(app, host=host, port=port)
