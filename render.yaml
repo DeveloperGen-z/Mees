@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: meesho-shop
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      - key: WORKER_MODE
+        value: "0"
+      - key: AUTOCANCEL_ENABLED
+        value: "0"
+
+  - type: worker
+    name: meesho-worker
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: WORKER_MODE
+        value: "1"
+      - key: BOT_TOKEN
+        sync: false
+      - key: SHOP_URL
+        value: https://meesho-shop.onrender.com
+      - key: SERVER_URL
+        value: https://meesho-shop.onrender.com
+      - key: AUTOCANCEL_ENABLED
+        value: "0"
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASS
+        sync: false
